@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>MVP CARTAS</title>
+        <script async src="./dist/bundle.js"></script>
+    </head>
+    <body style="background-color:#33475b">
+        <select id="select_baraja">
+            <option value="cartas" selected>Baraja de 48</option>
+            <option value="cartasMinimas">Baraja de 12</option>
+        </select>
+        <br/>
+        <input type="button" value="Comenzar" id="btn_comenzar"></input>
+        <br/>
+        <div id="info_partida"></div>
+        <br/>
+        <input type="button" value="Siguiente Turno" id="btn_siguiente_turno"></input>
+        <br/>
+        <select id="select_carta" hidden="true">            
+        </select>
+        <br/>        
+        <input type="button" value="Jugar Carta" id="btn_jugar_carta"></input>
+        <div id="info_turno"></div>
+        <div id="ganador"></div>
+    </body>
+</html>

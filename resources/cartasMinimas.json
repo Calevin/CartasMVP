@@ -1,0 +1,14 @@
+[
+    { "id": 1, "palo": "Espada", "valor": 1 },
+    { "id": 2, "palo": "Espada", "valor": 2 },
+    { "id": 3, "palo": "Espada", "valor": 3 },
+    { "id": 1, "palo": "Basto", "valor": 1 },
+    { "id": 2, "palo": "Basto", "valor": 2 },
+    { "id": 3, "palo": "Basto", "valor": 3 },
+    { "id": 1, "palo": "Copa", "valor": 1 },
+    { "id": 2, "palo": "Copa", "valor": 2 },
+    { "id": 3, "palo": "Copa", "valor": 3 },
+    { "id": 1, "palo": "Oro", "valor": 1 },
+    { "id": 2, "palo": "Oro", "valor": 2 },
+    { "id": 3, "palo": "Oro", "valor": 3 }
+]
