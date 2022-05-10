@@ -31,9 +31,11 @@ export class Juego {
     }
 
     public mezclarMazo(): void {
+        console.group('mezclarMazo');
         this.mazo = Carta.mezclarCartas(this.mazo);
         console.log('El mazo fue mezclado');
         console.log(`El mazo tiene ${this.mazo.length} cartas`);
+        console.groupEnd();
     }
 
     public iniciarJuego(): void {
@@ -42,6 +44,7 @@ export class Juego {
     }
 
     public repartirCartas(): void {
+        console.group('repartirCartas');
         const half = Math.ceil(this.mazo.length / 2);
         const firstHalf = this.mazo.slice(0, half);
         const secondHalf = this.mazo.slice(-half);
@@ -51,9 +54,11 @@ export class Juego {
         this.jugador.mazo = firstHalf;
         console.log(`Adversario recibira ${secondHalf.length} cartas`);
         this.adversario.mazo = secondHalf;
+        console.groupEnd();
     }
 
     public resolverJugada(): string[] {
+        console.group('resolverJugada');
         console.log('RESOLVER JUGADA');
 
         let mensaje = [];
@@ -86,11 +91,12 @@ export class Juego {
             }
         }
 
+        console.groupEnd();
         return mensaje;
     }
 
     public comprobarEstado(): void {
-
+        console.group('comprobarEstado');
         if(this.jugador.isPerdedor()) {
             console.log(`${this.jugador.nombre} PERDIO!`);
 
@@ -105,11 +111,14 @@ export class Juego {
 
             this.jugando = false;
         }
+        console.groupEnd();
     }
 
     public refillMazosSiEsNecesario(){
+        console.group('refillMazosSiEsNecesario');
         this.refillMazoSiEsNecesario(this.jugador);
         this.refillMazoSiEsNecesario(this.adversario);
+        console.groupEnd();
     }
 
     private refillMazoSiEsNecesario(jugador: Jugador) {
@@ -120,28 +129,29 @@ export class Juego {
     }
 
     public validarEstado(){
+        console.group('validarEstado');
         let numeroDeCartasJugador = this.jugador.getCantidadCartas();
         let numeroDeCartasAdversario = this.adversario.getCantidadCartas();
 
         if((numeroDeCartasJugador+numeroDeCartasAdversario)+this.cartasAcumuladasPorEmpate.length===this.numeroCartasEnJuego){
-                console.log(`Turno: ${this.numeroTurno} termina OK`);
-            } else {
-                console.error(`Turno: ${this.numeroTurno} termina NO OK!!!!!!!!!!!!!!`);
+            console.log(`Turno: ${this.numeroTurno} termina OK`);
+        } else {
+            console.error(`Turno: ${this.numeroTurno} termina NO OK!!!!!!!!!!!!!!`);
 
-                this.logearEstado();
+            this.logearEstado();
 
-                this.jugando = false
-            }
+            this.jugando = false
+        }
+        console.groupEnd();
     }
 
     public logearEstado(): void {
-        console.log(`Mazo del jugador ${this.jugador.mazo.length}`);
-        console.log(`Mazo del adversario ${this.adversario.mazo.length}`);
-        console.log(`Mano del jugador ${this.jugador.mano.length}`);
-        console.log(`Mano del adversario ${this.adversario.mano.length}`);
-        console.log(`Descartes del jugador ${this.jugador.descarte.length}`);
-        console.log(`Descartes del Adversario ${this.adversario.descarte.length}`);
+        console.group(`logearEstado, turno ${this.numeroTurno}`);
+        console.log(`Jugador Mazo: ${this.jugador.mazo.length} -\nDescartes: ${this.jugador.descarte.length} -\nMano: ${this.jugador.mano.length} `);
+        console.log(`Adversario Mazo: ${this.adversario.mazo.length} -\nDescartes: ${this.adversario.descarte.length} -\nMano: ${this.adversario.mano.length} `);
+
         console.log(`Cartas en la mesa (empates) ${this.cartasAcumuladasPorEmpate.length}`);
+        console.groupEnd();
     }
 
     public reset(): void {

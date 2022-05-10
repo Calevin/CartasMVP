@@ -28,7 +28,7 @@ export class MainController {
     select_carta: any;
 
     constructor() {
-        console.log('Creando MainController');
+        console.group('Creando MainController');
 
         this.cartas = dataCartas;
 
@@ -55,10 +55,12 @@ export class MainController {
 
         this.select_carta = document.getElementById(this.id_select_carta);
         this.select_carta.addEventListener("change", (e:Event) => this.seleccionarCarta(e));
+
+        console.groupEnd();
       }
 
       private comenzar() {
-        console.log('INICIANDO JUEGO');
+        console.group('INICIANDO JUEGO');
 
         this.juego.setMazo(this.cartas);
 
@@ -73,10 +75,11 @@ export class MainController {
         this.limpiarInfoGanador();
 
         this.renderOptionCartaManoVacia();
+        console.groupEnd();
       }
 
       private siguienteTurno() {
-        console.log(`Numero de turno ${ this.juego.getNroTurno() }`);
+        console.log(`Comienza el turno numero ${ this.juego.getNroTurno() }`);
         this.juego.incrementarNroTurno();
     
         this.juego.logearEstado();
@@ -95,7 +98,8 @@ export class MainController {
       }
 
       private jugarCarta() {
-        //SE RESUELVE LA JUGADA
+        console.group('jugarCarta ################################################');
+        //SE RESUELVE LA JUGADA        
         let mensajeResultado: string[] = this.juego.resolverJugada();
         mensajeResultado.forEach( (e) => {console.log(e)});
 
@@ -121,6 +125,7 @@ export class MainController {
         this.desactivarBotonJugarCarta();
         this.renderOptionCartaManoVacia();
         console.log('################################################');
+        console.groupEnd();
       }
 
       seleccionarBaraja(e:any) {
@@ -157,12 +162,11 @@ export class MainController {
         let innerHTML = `<select id="select_carta">
                             <option value="${cartaJugador.palo}-${cartaJugador.id}" selected>${cartaJugador.palo} ${cartaJugador.valor}</option>
                          </select>`;
-        div_ganador.innerHTML = innerHTML;
+        div_ganador.innerHTML = innerHTML;        
       }
 
       private renderOptionCartaManoVacia(){
         let div_ganador = document.getElementById("select_carta");
-        let cartaJugador: Carta = this.juego.jugador.mano[0];
 
         let innerHTML = `<select id="select_carta">
                             <option value="" selected> Esperando cartas...</option>

@@ -21,8 +21,14 @@ export class Jugador {
     }
 
     public rellenarMazo() {
+        console.group(`rellenarMazo (${this.nombre})`)
+        console.log(`pre rellenar: en mazo ${this.mazo.length} cartas y en descarte ${this.descarte.length}`);
+        
         this.mazo = Carta.mezclarCartas(this.descarte);
         this.descarte = [];
+
+        console.log(`post rellenar: en mazo ${this.mazo.length} cartas y en descarte ${this.descarte.length}`);
+        console.groupEnd();
     }
 
     public tieneMazoVacio(): boolean {
