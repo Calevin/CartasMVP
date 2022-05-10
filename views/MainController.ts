@@ -88,8 +88,7 @@ export class MainController {
         this.juego.refillMazosSiEsNecesario();
     
         //CADA JUGADOR RECIBE UNA CARTA DEL MAZO
-        this.jugador.recibirCarta(this.jugador.mazo.pop());
-        this.adversario.recibirCarta(this.adversario.mazo.pop());
+        this.juego.refillManos();
 
         this.renderOptionCarta();
 
@@ -99,6 +98,11 @@ export class MainController {
 
       private jugarCarta() {
         console.group('jugarCarta ################################################');
+        //JUGADOR JUEGA CARTA
+        this.jugador.jugarCarta();
+        this.adversarioSeleccionarAlAzar();
+        this.adversario.jugarCarta();
+
         //SE RESUELVE LA JUGADA        
         let mensajeResultado: string[] = this.juego.resolverJugada();
         mensajeResultado.forEach( (e) => {console.log(e)});
@@ -140,11 +144,25 @@ export class MainController {
 
       }
 
-      seleccionarCarta(e:any) {
-        let seleccionado: string = e.target.value;
+      private adversarioSeleccionarAlAzar(){
+        let cartaAdverario: Carta;
+        if(this.adversario.mano.length > 0){
+          cartaAdverario = this.adversario.mano[Math.floor(Math.random()*this.adversario.mano.length)];
+          console.log(`Adversario eligio: (${cartaAdverario.id}) ${cartaAdverario.valor} de ${cartaAdverario.palo}`);          
+        } else  {
+          console.log(`Adversario solo tiene una carta: (${cartaAdverario.id}) ${cartaAdverario.valor} de ${cartaAdverario.palo}`);
+          cartaAdverario = this.adversario.mano[0];
+        }
 
-        console.log(`CARTA SELECCIONADA: ${seleccionado}`);
-      }      
+        this.adversario.seleccionarCarta(cartaAdverario.id);
+      }        
+      
+      
+      seleccionarCarta(e:any) {
+        let idCartaSeleccionada: number = e.target.value;
+
+        this.jugador.seleccionarCarta(idCartaSeleccionada);
+      }     
 
       public isComenzado(): boolean {
           return this.juego.jugando;
@@ -154,16 +172,18 @@ export class MainController {
         let div_ganador = document.getElementById("ganador");
         div_ganador.innerHTML = `<h1> Esperando resultado...`;
       }
-
       private renderOptionCarta(){
         let div_ganador = document.getElementById("select_carta");
-        let cartaJugador: Carta = this.juego.jugador.mano[0];
+        
+        let innerHTML = `<select id="select_carta">`;
 
-        let innerHTML = `<select id="select_carta">
-                            <option value="${cartaJugador.palo}-${cartaJugador.id}" selected>${cartaJugador.palo} ${cartaJugador.valor}</option>
-                         </select>`;
+        this.juego.jugador.mano.forEach((cartaJugador: Carta) => {
+          innerHTML += `<option value="${cartaJugador.id}" >${cartaJugador.palo} ${cartaJugador.valor}</option>`;
+        });
+
+        innerHTML += `</select>`;
         div_ganador.innerHTML = innerHTML;        
-      }
+      } 
 
       private renderOptionCartaManoVacia(){
         let div_ganador = document.getElementById("select_carta");

@@ -62,8 +62,8 @@ export class Juego {
         console.log('RESOLVER JUGADA');
 
         let mensaje = [];
-        let cartaJugador: Carta = this.jugador.mano.pop();
-        let cartaAdversario: Carta = this.adversario.mano.pop();
+        let cartaJugador: Carta = this.jugador.jugadas.pop();
+        let cartaAdversario: Carta = this.adversario.jugadas.pop();
         mensaje.push(` - cartaJugador: ${JSON.stringify(cartaJugador)} vs cartaAdversario: ${JSON.stringify(cartaAdversario)}`);
         
         if(cartaJugador.valor === cartaAdversario.valor) {
@@ -94,6 +94,24 @@ export class Juego {
         console.groupEnd();
         return mensaje;
     }
+
+    public refillManos(){
+        console.group('refillManos');
+        this.refillManoSiEsNecesario(this.jugador);
+        this.refillManoSiEsNecesario(this.adversario);               
+        console.groupEnd();
+    }
+
+    public refillManoSiEsNecesario(jugador: Jugador){
+        let mazoLength: number = jugador.mazo.length;
+        console.log(`${jugador.nombre} su mazo tiene ${mazoLength} y su mano tiene ${jugador.mano.length} `);
+        
+        for (let index = 0; index < 3 && index < mazoLength; index++) {
+            console.log(`${jugador.nombre} toma ${index} carta`);
+            jugador.recibirCarta(jugador.mazo.pop());
+        }
+        console.log(`${jugador.nombre} ahora su mazo tiene ${jugador.mazo.length} y su mano tiene ${jugador.mano.length} `);
+    }    
 
     public comprobarEstado(): void {
         console.group('comprobarEstado');
