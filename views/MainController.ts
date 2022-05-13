@@ -1,6 +1,7 @@
 import { Carta } from "../src/entities/Carta";
 import { Juego } from "../src/Juego";
 import { Jugador } from "../src/entities/Jugador";
+import { ResultadoPartida } from "../src/entities/ResultadoPartida";
 
 const dataCartas = require('../resources/cartas.json');
 const dataCartasMinimas = require('../resources/cartasMinimas.json');
@@ -32,6 +33,16 @@ export class MainController {
     select_baraja: any;
     readonly id_select_carta: string = "select_carta";
     select_carta: any;
+
+    //TDs
+    readonly id_jugador_carta_palo: string = "jugador_carta_palo";
+    readonly id_jugador_carta_valor: string = "jugador_carta_valor";
+    readonly id_adversario_carta_palo: string = "adversario_carta_palo";
+    readonly id_adversario_carta_valor: string = "adversario_carta_valor";
+    jugador_carta_palo: any;
+    jugador_carta_valor: any;
+    adversario_carta_palo: any;
+    adversario_carta_valor: any;
 
     constructor() {
         console.group('Creando MainController');
@@ -66,6 +77,12 @@ export class MainController {
         this.select_carta = document.getElementById(this.id_select_carta);
         this.select_carta.addEventListener("change", (e:Event) => this.seleccionarCarta(e));
 
+        //TD
+        this.jugador_carta_palo = document.getElementById(this.id_jugador_carta_palo);
+        this.jugador_carta_valor = document.getElementById(this.id_jugador_carta_valor);
+        this.adversario_carta_palo = document.getElementById(this.id_adversario_carta_palo);
+        this.adversario_carta_valor = document.getElementById(this.id_adversario_carta_valor);
+        
         console.groupEnd();
       }
 
@@ -118,10 +135,13 @@ export class MainController {
         this.adversario.jugarCarta();
 
         //SE RESUELVE LA JUGADA        
-        let mensajeResultado: string[] = this.juego.resolverJugada();
+        let resultadoPartida: ResultadoPartida = this.juego.resolverJugada();
+        let mensajeResultado: string[] = resultadoPartida.mensaje;
         mensajeResultado.forEach( (e) => {console.log(e)});
 
         this.renderInfoResultadoPartida(mensajeResultado);
+
+        this.renderCartasJugadas(resultadoPartida);
     
         //SE COMPRUEBA SI HAY GANADOR
         this.juego.comprobarEstado();
@@ -232,6 +252,16 @@ export class MainController {
         });
 
         this.div_partida.innerHTML = innerHTML;
+      }
+
+      private renderCartasJugadas(resultadoPartida: ResultadoPartida) {
+        let cartaJugador: Carta = resultadoPartida.cartaJugador;
+        let cartaAdversario: Carta = resultadoPartida.cartaAdversario;
+
+        this.jugador_carta_palo.innerHTML = `<td id="jugador_carta_palo">${cartaJugador.palo}</td>`;
+        this.jugador_carta_valor.innerHTML = `<td id="jugador_carta_valor">${cartaJugador.valor}</td>`;
+        this.adversario_carta_palo.innerHTML = `<td id="adversario_carta_palo">${cartaAdversario.palo}</td>`;
+        this.adversario_carta_valor.innerHTML = `<td id="adversario_carta_valor">${cartaAdversario.valor}</td>`;
       }
 
       private activarBotonSiguienteTurno(){

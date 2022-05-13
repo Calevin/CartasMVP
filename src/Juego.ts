@@ -1,5 +1,6 @@
 import { Carta } from './entities/Carta';
 import { Jugador } from './entities/Jugador';
+import { ResultadoPartida } from './entities/ResultadoPartida';
 
 export class Juego {
 
@@ -57,14 +58,17 @@ export class Juego {
         console.groupEnd();
     }
 
-    public resolverJugada(): string[] {
+    public resolverJugada(): ResultadoPartida {
+        let resultadoPartida: ResultadoPartida = new ResultadoPartida();
         console.group('resolverJugada');
         console.log('RESOLVER JUGADA');
 
         let mensaje = [];
         let cartaJugador: Carta = this.jugador.jugadas.pop();
+        resultadoPartida.cartaJugador = cartaJugador;
         let cartaAdversario: Carta = this.adversario.jugadas.pop();
-        mensaje.push(` - cartaJugador: ${JSON.stringify(cartaJugador)} vs cartaAdversario: ${JSON.stringify(cartaAdversario)}`);
+        resultadoPartida.cartaAdversario = cartaAdversario;
+        //mensaje.push(` - cartaJugador: ${JSON.stringify(cartaJugador)} vs cartaAdversario: ${JSON.stringify(cartaAdversario)}`);
         
         if(cartaJugador.valor === cartaAdversario.valor) {
             mensaje.push(` - PARTIDA EMPATADA EN ${cartaJugador.valor} - ${cartaAdversario.valor}`);
@@ -92,7 +96,8 @@ export class Juego {
         }
 
         console.groupEnd();
-        return mensaje;
+        resultadoPartida.mensaje = mensaje;
+        return resultadoPartida;
     }
 
     public refillManos(){
