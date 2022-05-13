@@ -205,7 +205,7 @@ export class MainController {
       }
 
       private limpiarInfoGanador(){
-        this.div_ganador.innerHTML = `<h1> Esperando resultado...`;
+        this.div_ganador.innerHTML = `Esperando resultado...`;
       }
 
       private renderOptionCarta(){
@@ -227,9 +227,10 @@ export class MainController {
       }
 
       private renderInfoTurno(){
-        let innerHTML = `<h1> Turno: ${ this.juego.getNroTurno() } <br/>
-                        <h1> Cartas del jugador: ${ this.juego.jugador.getCantidadCartas() }
-                        <h1> Cartas del adversario: ${ this.juego.adversario.getCantidadCartas() }`;
+        let innerHTML = ` Turno: ${ this.juego.getNroTurno() } <br/>
+                        Cartas del jugador: ${ this.juego.jugador.getCantidadCartas() }
+                        <br/>
+                        Cartas del adversario: ${ this.juego.adversario.getCantidadCartas() }`;
         this.div_ganador.innerHTML = innerHTML;
       }
 
@@ -237,9 +238,9 @@ export class MainController {
         let innerHTML = ``;
         if(this.juego.ganador && this.juego.perdedor){
             innerHTML += 
-                `<h1> Ganador: ${this.juego.ganador.nombre}
+                `Ganador: ${this.juego.ganador.nombre}
                 <br/>
-                <h1> Perdedor: ${this.juego.perdedor.nombre}`;
+                Perdedor: ${this.juego.perdedor.nombre}`;
         }
 
         this.div_ganador.innerHTML = innerHTML;
@@ -248,7 +249,7 @@ export class MainController {
       private renderInfoResultadoPartida(mensajes: string[]){
         let innerHTML = ``;
         mensajes.forEach( (msj) =>{
-          innerHTML += `<br/><h1> ${msj}`;
+          innerHTML += `<br/> ${msj}`;
         });
 
         this.div_partida.innerHTML = innerHTML;
