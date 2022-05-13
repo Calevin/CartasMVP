@@ -85,6 +85,11 @@ export class MainController {
         this.limpiarInfoGanador();
 
         this.renderOptionCartaManoVacia();
+
+        this.desactivarOptionsCarta();
+
+        this.desactivarOptionsBaraja();
+
         console.groupEnd();
       }
 
@@ -103,6 +108,7 @@ export class MainController {
         this.renderOptionCarta();
 
         this.desactivarBotonSiguienteTurno();
+        this.activarOptionsCarta();
         this.activarBotonJugarCarta();
       }
 
@@ -132,12 +138,13 @@ export class MainController {
             this.renderInfoResultado();
             this.juego.reset();
             this.desactivarBotonSiguienteTurno();
-            
+            this.activarOptionsBaraja();
         }
 
         this.activarBotonSiguienteTurno();
         this.desactivarBotonJugarCarta();
         this.renderOptionCartaManoVacia();
+        this.desactivarOptionsCarta();
         console.log('################################################');
         console.groupEnd();
       }
@@ -245,5 +252,22 @@ export class MainController {
       
       private desactivarBotonJugarCarta(){
         (this.btn_jugar_carta as HTMLButtonElement).disabled = true;
-      }     
+      }
+
+      private activarOptionsBaraja(){
+        (this.select_baraja as HTMLOptionElement).disabled = false;
+      }
+
+      private desactivarOptionsBaraja(){
+        (this.select_baraja as HTMLOptionElement).disabled = true;
+      }
+
+
+      private activarOptionsCarta(){
+        (this.select_carta as HTMLOptionElement).disabled = false;
+      }
+
+      private desactivarOptionsCarta(){
+        (this.select_carta as HTMLOptionElement).disabled = true;
+      }      
 }
