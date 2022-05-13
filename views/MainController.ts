@@ -13,6 +13,12 @@ export class MainController {
     juego: Juego;
     barajaSeleccionada: string;
 
+    //DIVS
+    readonly id_div_partida: string = "info_partida";
+    readonly id_div_ganador: string = "ganador";
+    div_partida: any;
+    div_ganador: any;
+
     // BOTONES
     readonly id_btn_comenzar: string = "btn_comenzar";
     readonly id_btn_siguiente_turno: string = "btn_siguiente_turno";
@@ -36,6 +42,10 @@ export class MainController {
         this.adversario = new Jugador('IA');
 
         this.juego = new Juego(this.jugador, this.adversario);
+
+        //DIVS
+        this.div_partida = document.getElementById(this.id_div_partida);
+        this.div_ganador = document.getElementById(this.id_div_ganador);
 
         //BOTONES
         this.btn_comenzar = document.getElementById(this.id_btn_comenzar);
@@ -169,12 +179,9 @@ export class MainController {
       }
 
       private limpiarInfoGanador(){
-        let div_ganador = document.getElementById("ganador");
-        div_ganador.innerHTML = `<h1> Esperando resultado...`;
+        this.div_ganador.innerHTML = `<h1> Esperando resultado...`;
       }
       private renderOptionCarta(){
-        let div_ganador = document.getElementById("select_carta");
-        
         let innerHTML = `<select id="select_carta">`;
 
         this.juego.jugador.mano.forEach((cartaJugador: Carta) => {
@@ -182,28 +189,24 @@ export class MainController {
         });
 
         innerHTML += `</select>`;
-        div_ganador.innerHTML = innerHTML;        
+        this.select_carta.innerHTML = innerHTML;        
       } 
 
       private renderOptionCartaManoVacia(){
-        let div_ganador = document.getElementById("select_carta");
-
         let innerHTML = `<select id="select_carta">
                             <option value="" selected> Esperando cartas...</option>
                          </select>`;
-        div_ganador.innerHTML = innerHTML;
+        this.select_carta.innerHTML = innerHTML;
       }
 
       private renderInfoTurno(){
-        let div_ganador = document.getElementById("info_turno");
         let innerHTML = `<h1> Turno: ${ this.juego.getNroTurno() } <br/>
                         <h1> Cartas del jugador: ${ this.juego.jugador.getCantidadCartas() }
                         <h1> Cartas del adversario: ${ this.juego.adversario.getCantidadCartas() }`;
-        div_ganador.innerHTML = innerHTML;
+        this.div_ganador.innerHTML = innerHTML;
       }
 
       private renderInfoResultado(){
-        let div_ganador = document.getElementById("ganador");
         let innerHTML = ``;
         if(this.juego.ganador && this.juego.perdedor){
             innerHTML += 
@@ -212,17 +215,16 @@ export class MainController {
                 <h1> Perdedor: ${this.juego.perdedor.nombre}`;
         }
 
-        div_ganador.innerHTML = innerHTML;
+        this.div_ganador.innerHTML = innerHTML;
       }
 
       private renderInfoResultadoPartida(mensajes: string[]){
-        let div_partida = document.getElementById("info_partida");
         let innerHTML = ``;
         mensajes.forEach( (msj) =>{
           innerHTML += `<br/><h1> ${msj}`;
         });
 
-        div_partida.innerHTML = innerHTML;
+        this.div_partida.innerHTML = innerHTML;
       }
 
       private activarBotonSiguienteTurno(){
