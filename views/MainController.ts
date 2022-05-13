@@ -86,8 +86,6 @@ export class MainController {
 
         this.renderOptionCartaManoVacia();
 
-        this.desactivarOptionsCarta();
-
         this.desactivarOptionsBaraja();
 
         console.groupEnd();
@@ -108,7 +106,7 @@ export class MainController {
         this.renderOptionCarta();
 
         this.desactivarBotonSiguienteTurno();
-        this.activarOptionsCarta();
+        this.activarSelectCarta();
         this.activarBotonJugarCarta();
       }
 
@@ -139,12 +137,13 @@ export class MainController {
             this.juego.reset();
             this.desactivarBotonSiguienteTurno();
             this.activarOptionsBaraja();
+        } else {
+          this.activarBotonSiguienteTurno();
         }
 
-        this.activarBotonSiguienteTurno();
+        
         this.desactivarBotonJugarCarta();
         this.renderOptionCartaManoVacia();
-        this.desactivarOptionsCarta();
         console.log('################################################');
         console.groupEnd();
       }
@@ -188,21 +187,22 @@ export class MainController {
       private limpiarInfoGanador(){
         this.div_ganador.innerHTML = `<h1> Esperando resultado...`;
       }
+
       private renderOptionCarta(){
-        let innerHTML = `<select id="select_carta">`;
+        let innerHTML = `<div id="${this.select_carta}">`;
 
         this.juego.jugador.mano.forEach((cartaJugador: Carta) => {
-          innerHTML += `<option value="${cartaJugador.id}" >${cartaJugador.palo} ${cartaJugador.valor}</option>`;
+          innerHTML += `<input type="radio" value="${cartaJugador.id}" >${cartaJugador.palo} ${cartaJugador.valor}</input>`;
         });
 
-        innerHTML += `</select>`;
+        innerHTML += `</div>`;
         this.select_carta.innerHTML = innerHTML;        
       } 
 
       private renderOptionCartaManoVacia(){
-        let innerHTML = `<select id="select_carta">
-                            <option value="" selected> Esperando cartas...</option>
-                         </select>`;
+        let innerHTML = `<div id="${this.select_carta}">
+                            <input type="radio" value="esperando" disabled="true"> Esperando cartas...
+                         </div>`;
         this.select_carta.innerHTML = innerHTML;
       }
 
@@ -243,7 +243,7 @@ export class MainController {
       }
 
       private activarSelectCarta(){
-        (this.select_carta as HTMLOptionElement).hidden = false;
+        (this.select_carta as HTMLDivElement).hidden = false;
       }
 
       private activarBotonJugarCarta(){
@@ -261,13 +261,4 @@ export class MainController {
       private desactivarOptionsBaraja(){
         (this.select_baraja as HTMLOptionElement).disabled = true;
       }
-
-
-      private activarOptionsCarta(){
-        (this.select_carta as HTMLOptionElement).disabled = false;
-      }
-
-      private desactivarOptionsCarta(){
-        (this.select_carta as HTMLOptionElement).disabled = true;
-      }      
 }
